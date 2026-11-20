@@ -1,9 +1,13 @@
 import tweepy
+import os
 import time
 
 def search_tweets(query, max_results=10, max_retries=5):
     #get bearer token in https://developer.x.com/en/portal
-    BEARER_TOKEN = 'your_bearer_token'
+    BEARER_TOKEN = os.environ.get("X_BEARER_TOKEN", "your_bearer_token")
+    if BEARER_TOKEN == "your_bearer_token":
+        print("Set your token first: export X_BEARER_TOKEN=\"your_bearer_token\"")
+        return []
 
     client = tweepy.Client(bearer_token=BEARER_TOKEN)
 
@@ -15,7 +19,7 @@ def search_tweets(query, max_results=10, max_retries=5):
     while retry_count < max_retries:
         try:
             response = client.search_recent_tweets(query=query, max_results=max_results)
-            
+
             if response.data:
                 tweets = [tweet.text for tweet in response.data]
                 return tweets
