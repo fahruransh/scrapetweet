@@ -46,7 +46,9 @@ if __name__ == "__main__":
     except ValueError:
         print("Invalid input. Using default value of 10.")
         max_results_input = 10
+
     tweets = search_tweets(custom_query, max_results=max_results_input)
+
     if tweets:
         print("\nRetrieved Tweets:")
         for i, tweet in enumerate(tweets, start=1):
